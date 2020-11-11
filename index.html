@@ -498,6 +498,14 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
     </div>
     <div id="webcam-container"></div>
     <div id="label-container" style="text-align:center; color:#ffffff"></div>
+    <img id="말티즈" src="./말티즈주작용.png" style="display: none;"></img>
+    <!-- <img id="말티즈" src="./주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./주작용.png" style="display: none;"></img> -->
+
 
 <h2 style="color:white;padding-top:20px">실시간 영상으로 찾아보자</h2>
     <button class="btn-gradient red" style="display:block;margin:10px auto 0;" type="button" onclick="init2()">녹화 시작</button>
@@ -535,7 +543,7 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
         // or files from your local hard drive
         // Note: the pose library adds "tmImage" object to your window (window.tmImage)
         model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+        maxPredictions = model.getTotalClasses()+1;
 
         // Convenience function to setup a webcam
         // const flip = true; // whether to flip the webcam
@@ -551,7 +559,6 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
             labelContainer.appendChild(document.createElement("div"));
         }
         alert("로딩완료")
-        console.log("test");
     }
 
     // async function loop() {
@@ -567,11 +574,26 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
         var imgdom = document.getElementById("animalimg")
         // const prediction = await model.predict(webcam.canvas);
         const prediction = await model.predict(imgdom);
+        const maxPred = await findMaxPred(prediction);
+        let dogName = ""
+        console.log(prediction);
         for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
+            const classPrediction = prediction[i]["className"];
+            if (prediction[i].probability.toFixed(2) == maxPred) {
+              dogName = prediction[i].className
+              document.getElementById(dogName).style.display = "block"
+              console.log(dogName);
+              labelContainer.childNodes[i].innerHTML = "<h1 style='color:white'>"+classPrediction+"</h1>";
+            }
         }
+        
+    }
+    function findMaxPred(pred) {
+      const maxPred = pred.map(function(data) {
+        return data.probability.toFixed(2)
+      })
+      
+      return Math.max.apply(null, maxPred)
     }
     async function init2() {
         const modelURL = URL + "model.json";
@@ -582,7 +604,7 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
         // or files from your local hard drive
         // Note: the pose library adds "tmImage" object to your window (window.tmImage)
         model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+        maxPredictions = model.getTotalClasses()+1;
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
@@ -614,6 +636,7 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
                 prediction2[i].className + ": " + prediction2[i].probability.toFixed(2);
             camContainer.childNodes[i].innerHTML = classPrediction2;
         }
+        camContainer.childNodes[i].innerHTML = ""
     }
 </script>
 
