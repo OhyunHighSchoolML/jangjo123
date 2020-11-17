@@ -480,7 +480,16 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
 </head>
 <body>
 
+  <input type="button" id="button1" onclick="click1();" value="버튼1" />
 
+  <script>
+function click1() {
+  let image = document.createElement("img");
+  image.src = "클릭후사진.png";
+  document.querySelector("div").appendChild(image);
+}
+
+</script>
 
   <section class="page-content">
     <h1 class="page-title">🐾 Lost pet Finder 🐾</h1>
@@ -498,8 +507,8 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
     </div>
     <div id="webcam-container"></div>
     <div id="label-container" style="text-align:center; color:#ffffff"></div>
-    <img id="말티즈" src="./말티즈주작용.png" style="display: none;"></img>
-    <img id="포메라니안" src="./포메주작용.png" style="display: none;"></img>
+    <img id="말티즈" src="./말티즈주작용.png" style="display: none;"onclick ="click1()"></img>
+    <img id="포메라니안" src="./포메주작용.png" style="display: none ;"></img>
     <!-- <img id="말티즈" src="./주작용.png" style="display: none;"></img>
 
     <img id="말티즈" src="./주작용.png" style="display: none;"></img>
