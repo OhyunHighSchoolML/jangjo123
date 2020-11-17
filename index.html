@@ -485,7 +485,9 @@ canvas {display:flex;justify-content: center; align-items: center;margin:auto;pa
 
   <script>
 function click1() {
-  <img src="./클릭후사진.png" />
+  let image = document.createElement("img");
+  image.src = "클릭후사진.png" ;
+  document.querySelector("div").appendChild(image);
 }
 
 </script>
